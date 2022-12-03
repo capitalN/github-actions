@@ -1,0 +1,48 @@
+name: counter_app
+# triggers(event)
+on:
+  push:
+
+  pull_request:
+    branches:
+      - main
+
+# functions (what need to done)
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install Node 16
+      user: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - name: Install dependencies
+      run: npm i
+    - name: build project
+      run: npm run build
+    - name: Upload artifact in order to deploy
+      user: actions/upload-artifact@v2
+      with:
+        name: production-files
+        path: ./build
+
+  deploy:
+    name: deploy
+    runs-on: ubunto-latet
+    needs: build
+
+    steps:
+      - name: Download aftiact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./build
+      - name: Deploy to github pages
+        uses: peaceiris/action-gh-pages@v3
+        with:
+          github_token: ${{secrets.GH_TOKEN}}
+          publish_dir: ./build
