@@ -7,7 +7,7 @@ on:
     branches:
       -master
 
-#functions
+# functions (what need to done)
 jobs:
   build:
     name: Build
