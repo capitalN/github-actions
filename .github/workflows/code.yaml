@@ -25,7 +25,7 @@ jobs:
       - name: build project
         run: npm run build
       - name: Upload artifact in order to deploy
-        user: actions/upload-artifact@v2
+        user: actions/upload-artifact@v3
         with:
           name: production-files
           path: ./build
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Download aftiact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: production-files
           path: ./build
